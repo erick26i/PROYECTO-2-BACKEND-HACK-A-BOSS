@@ -19,12 +19,12 @@ const addComment = async (req, res) => {
    
     updateComment = `UPDATE services SET comments= "${comments}" where userId=${user2}`
     
-    
     await connection.query(updateComment)
-
+    connection.release()
     res.status(200).send("[EXITO] Comentario añadido correctamente")
 } catch {
     res.status(403).send("[ERROR] Hemos encontrado un problema con la DB")
+    connection.release()
 }
     
 }

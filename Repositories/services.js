@@ -9,6 +9,7 @@ const getServices = async (req, res) => {
     const respuesta = await connection.query(sqlGetServices)
     if(respuesta[0][0]){
         res.status(200).send(respuesta[0])
+        connection.release()
         
     } else {
         res.send("No hay servicios disponibles")
@@ -42,6 +43,8 @@ const markAsComplete = async (req, res) => {
     let sql = `UPDATE completework set complete=true where id_service=${idService}`
     await connection.query(sql)
     res.status(200).send("[EXITO] Servicio completado !!")
+    connection.release()
+
 }
 
 const newTask = async (req, res) => {
@@ -55,6 +58,8 @@ const newTask = async (req, res) => {
      await connection.query(sqlInsertTask)
  
      res.status(200).send(`[EXITO] Nueva tarea añadida al usuario: ${username}`)
+     connection.release()
+
 }
 
 module.exports = {

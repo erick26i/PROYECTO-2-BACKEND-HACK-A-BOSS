@@ -10,7 +10,7 @@ const login = async (req, res) => {
     const { username, password } = req.body
 
     if (!username || !password) {
-        
+        connection.release()
         res.sendStatus(400)
         return
     }
