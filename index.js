@@ -2,9 +2,9 @@ require("dotenv").config();
 
 const bodyParser = require('body-parser')
 const express = require('express')
-const fileUpload = require('express-fileupload');
 const cors = require('cors')
 const app = express()
+const multer = require('multer')
 
 const {
     isAuthenticated,
@@ -31,18 +31,20 @@ const {
 } = require('./controllers/controladores')
 
 const {
-    uploadFile
-} = require('./controllers/uploadFile')
-
-const {
     getUsers
 } = require('./controllers/getUsers')
 
+const {
+    storage 
+} = require('./controllers/storage')
+
+const upLoad = multer({ storage })
 app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(fileUpload());
 app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // USUARIOS ANONIMOS
 //Lista de servicios
@@ -70,27 +72,10 @@ app.post('/service/:id/user', newTask)
 // Marcar servicio como resuelto
 app.patch('/services/:id', serviceExists, isAuthenticated, markAsComplete)
 
-//Upload flie
-/*const multer = require('multer')
-const path = require('path')
 
-const storageDisk = multer.diskStorage({
-    destination: path.join(__dirname, './files'),
-    filename: (req, file, cb)=> {
-        cb(null, Date.now() + file.originalname)
-    }
-})
-const up = multer({
-    storage: storageDisk
-}).single('file')*/
 
-const 
-    {upload}
- = require('./controllers/storage')
-
-app.post('/service/user/upfile', upload.single(''), (req, res)=>{
-    console.log(req.files)
-    console.log(req.file)
+app.post('/service/user/upfile', upLoad.single('file'), (req, res)=>{
+    res.sendStatus(200)
 })
 
 // Servidor localhost:SERVER_PORT
