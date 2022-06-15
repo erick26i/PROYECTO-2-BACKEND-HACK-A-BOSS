@@ -31,8 +31,8 @@ const {
 } = require('./controllers/controladores')
 
 const {
-    uploadImg
-} = require('./controllers/uploadImg')
+    uploadFile
+} = require('./controllers/uploadFile')
 
 const {
     getUsers
@@ -70,9 +70,30 @@ app.post('/service/:id/user', newTask)
 // Marcar servicio como resuelto
 app.patch('/services/:id', serviceExists, isAuthenticated, markAsComplete)
 
-app.post('/uploadImage', uploadImg)
+//Upload flie
+/*const multer = require('multer')
+const path = require('path')
+
+const storageDisk = multer.diskStorage({
+    destination: path.join(__dirname, './files'),
+    filename: (req, file, cb)=> {
+        cb(null, Date.now() + file.originalname)
+    }
+})
+const up = multer({
+    storage: storageDisk
+}).single('file')*/
+
+const 
+    {upload}
+ = require('./controllers/storage')
+
+app.post('/service/user/upfile', upload.single(''), (req, res)=>{
+    console.log(req.files)
+    console.log(req.file)
+})
 
 // Servidor localhost:SERVER_PORT
 app.listen(process.env.SERVER_PORT, () => {
     console.log(`Listening on port ${process.env.SERVER_PORT}`)
-});
+})

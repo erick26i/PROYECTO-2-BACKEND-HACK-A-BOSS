@@ -1,7 +1,8 @@
 const { v4: uuidv4 } = require('uuid')
-const sharp = require('sharp');
-const path = require('path');
-const uploadImg = async (req, res) => {
+const sharp = require('sharp')
+const path = require('path')
+
+const uploadFile = async (req, res) => {
 
     try{
         // If there is no file selected send status false
@@ -22,7 +23,7 @@ const uploadImg = async (req, res) => {
             // the path where we gona save our picture
 
             res.status(200).send({
-                message: "Image uploaded successfully",
+                message: "File uploaded successfully",
                 data: {
                     name: img.name,
                     size: img.size
@@ -35,5 +36,5 @@ const uploadImg = async (req, res) => {
 }
 
 module.exports = {
-    uploadImg
+    uploadFile
 }
