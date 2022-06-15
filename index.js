@@ -36,7 +36,11 @@ const {
 
 const {
     storage 
-} = require('./controllers/storage')
+} = require('./controllers/storage');
+
+const { 
+    uploadFile
+ } = require("./controllers/uploadFile");
 
 const upLoad = multer({ storage })
 app.use(express.static('public'))
@@ -72,11 +76,8 @@ app.post('/service/:id/user', newTask)
 // Marcar servicio como resuelto
 app.patch('/services/:id', serviceExists, isAuthenticated, markAsComplete)
 
-
-
-app.post('/service/user/upfile', upLoad.single('file'), (req, res)=>{
-    res.sendStatus(200)
-})
+//Upload File & Img
+app.post('/service/:id/upfile', isAuthenticated, upLoad.single('file'), uploadFile)
 
 // Servidor localhost:SERVER_PORT
 app.listen(process.env.SERVER_PORT, () => {

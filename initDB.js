@@ -9,6 +9,15 @@ async function main() {
     // Conseguir conexión a la base de datos
     connection = await getConnection();
 
+    // Borramos BD si existe
+    console.log("Borramos BD si existe");
+    await connection.query(`DROP DATABASE proyecto`);
+
+    // Creamos Base de datos y seleccionamos
+    console.log("Creamos DB")
+    await connection.query(`CREATE DATABASE proyecto`);
+    await connection.query(`USE proyecto`);
+
     // Borrar las tablas si existen (diary, diary_votes)
     console.log("Borrando tablas");
     await connection.query("DROP TABLE IF EXISTS completework");
